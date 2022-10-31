@@ -16,7 +16,7 @@ To follow along with this tutorial:
 
 ## Navigation
 
-To commence this tutorial, navigate to the code section of this repository, enter the `Part1` subdirectory. This tutorial is divided into four parts, each part available as a separate subdirectory. Then just follow the `README.md`
+To commence this tutorial, navigate to the code section of this repository, enter the `PartX` subdirectory. This tutorial is divided into three parts, each part available as a separate subdirectory. Then just follow the `README.md`
 
 ### Contents
 
@@ -25,5 +25,3 @@ To commence this tutorial, navigate to the code section of this repository, ente
 + [Part 2](/Part2) - Secure with SSL/TLS
 
 + [Part 3](/Part3) - Multiple clients, multi-threading, error handling
-
-+ [Part 4](/Part4) - Data serialization
