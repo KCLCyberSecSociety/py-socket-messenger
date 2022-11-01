@@ -25,3 +25,7 @@ To commence this tutorial, navigate to the code section of this repository, ente
 + [Part 2](/Part2) - Secure with SSL/TLS
 
 + [Part 3](/Part3) - Multiple clients, multi-threading, error handling
+
+## Notes
+
+The RSA private key and SSL certificate generated for Part2 is purely for demonstration purposes. You should NEVER expose private keys by storing them on a public (or even private) repository. So it would be ill-advised to reuse the keys I have provided for any personal project.
