@@ -18,8 +18,8 @@ client.connect(SERVER)
 
 print('Connected to server')
 
-# reads message sent by server
-msg_in = client.recv(1024).decode()
+# expects message (max 2KB) sent by server
+msg_in = client.recv(2048).decode()
 print('Server:', msg_in)
 
 # sends message to server

@@ -28,8 +28,8 @@ print('New client joined:', address)
 msg_out = 'Hello there Client!'
 client.send(msg_out.encode())
 
-# reads message sent by client
-msg_in = client.recv(1024).decode()
+# expects message (max 2KB) sent by client
+msg_in = client.recv(2048).decode()
 print('Client:', msg_in)
 
 # closes connection with client and terminates server
