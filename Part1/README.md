@@ -23,22 +23,23 @@ First, we will have to create a [client](/Part1/client.py) and [server](/Part1/s
 2. Next, we create the server socket like so:
     
     ```python
-    server = socket()
+    server = socket(AF_INET , SOCK_STREAM)
     ```
-
-    We want to configure the socket so that the same socket `host:port` can be used again. The method `setsockopt` targets the socket option level to `SOL_SOCKET`, we specify that we want to set the socket option `SO_REUSEADDR` to `1` i.e `true` 
+    + We specify the address family to `AF_INET` to allow IPv4 addresses to connect to it. 
+    + We specify the socket type to `SOCK_STREAM` to ensure a continuous connection is maintained.
     
     ```python
     server.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
     ```
-    For more info on: [setsockopt](https://pubs.opengroup.org/onlinepubs/000095399/functions/setsockopt.html)
+    We want to configure the socket so that the same socket `host:port` can be used again. The method `setsockopt` targets the socket option level to `SOL_SOCKET`, we specify that we want to set the socket option `SO_REUSEADDR` to `1` i.e `true` 
 
-    Finally, we establish the socket on our system using the `bind` method and begin listening for incoming connections using `listen`. The `listen` method takes in a number specifying the number of connections that wait to connect before denying any more.
+    For more info on: [setsockopt](https://pubs.opengroup.org/onlinepubs/000095399/functions/setsockopt.html)
 
     ```python
     server.bind(SERVER)
     server.listen(1)
     ```
+    Finally, we establish the socket on our system using the `bind` method and begin listening for incoming connections using `listen`. The `listen` method takes in a number specifying the number of connections that wait to connect before denying any more.
 
 3. Then, we want to allow a connection to be established:
 
@@ -89,7 +90,7 @@ First, we will have to create a [client](/Part1/client.py) and [server](/Part1/s
 2. This time, in order to connect to our server we use the `connect` method.
 
     ```python
-    client = socket()
+    client = socket(AF_INET , SOCK_STREAM)
     client.connect(SERVER)
     ```
     DO NOT confuse this method with `bind` as it can only be used to initiate a server-side socket for clients to `connect` to.

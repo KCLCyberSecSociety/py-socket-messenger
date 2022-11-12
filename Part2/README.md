@@ -49,7 +49,7 @@ Open a terminal and run the following commands:
 2. Next, we modify our socket creation by wrapping it with our SSLContext which adds the TLS layer to all our socket functions
     
     ```python
-    server = sslctx.wrap_socket(socket(), server_side=True)
+    server = sslctx.wrap_socket(socket(AF_INET , SOCK_STREAM), server_side=True)
     ```
 
 ### Client side
@@ -71,7 +71,7 @@ Open a terminal and run the following commands:
 3. Wrap the client socket with our SSLContext
 
     ```python
-    client = sslctx.wrap_socket(socket(), server_hostname=HOST)
+    client = sslctx.wrap_socket(socket(AF_INET , SOCK_STREAM), server_hostname=HOST)
     ```
 
 
