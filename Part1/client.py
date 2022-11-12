@@ -8,7 +8,7 @@ PORT = 50000
 SERVER = (HOST, PORT)
 
 # connects to server (client-side socket)
-client = socket()
+client = socket(AF_INET , SOCK_STREAM)
 client.connect(SERVER)
 
 print('Connected to server!')

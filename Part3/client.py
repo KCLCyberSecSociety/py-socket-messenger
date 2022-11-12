@@ -19,7 +19,7 @@ sslctx = SSLContext(PROTOCOL_TLS_CLIENT)
 sslctx.load_verify_locations('certificate.pem')
 
 # setsup connection to server
-client = sslctx.wrap_socket(socket(), server_hostname=HOST)
+client = sslctx.wrap_socket(socket(AF_INET , SOCK_STREAM), server_hostname=HOST)
 
 # connects to server properly
 try:

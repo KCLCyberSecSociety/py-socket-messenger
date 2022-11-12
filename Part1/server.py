@@ -8,7 +8,7 @@ PORT = 50000
 SERVER = (HOST, PORT)
 
 # setsup server and allows clients to join (server-side socket)
-server = socket()
+server = socket(AF_INET , SOCK_STREAM)
 server.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 server.bind(SERVER)
 server.listen(1)
