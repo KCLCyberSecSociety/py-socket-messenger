@@ -33,86 +33,88 @@ In our [server.py](/Part3/server.py) script:
 
 1. First, declare the following variables at the top to store all the client sockets that connect to our chat server and terminate our server from any thread.
 
-    ```python
-    clients = []
-    running = True
-    ```
+   ```python
+   clients = []
+   running = True
+   ```
 
 2. Then create the following functions to add new client connections to our server:
 
-    ```python
-    def listen_to_client():
-      # leave empty for now
-      pass
+   ```python
+   def listen_to_client():
+     # leave empty for now
+     pass
 
-    def listen_for_clients():
-      try:
-        while True:
-          client, address = server.accept()
-          
-          print('New client joined: ', address)
+   def listen_for_clients():
+     try:
+       while True:
+         client, address = server.accept()
 
-          Thread(target=listen_to_client, args=[client, ], daemon=True).start()
-          
-          clients.append(client)
-      except:
-        running = False
+         print('New client joined: ', address)
+
+         Thread(target=listen_to_client, args=[client, ], daemon=True).start()
+
+         clients.append(client)
+     except:
+       running = False
+
+   ```
 
 3. Next, let us define the `listen_to_client` function:
-    
-    ```python
-    def listen_to_client(client):
-      try:
-        while True:
-          msg = client.recv(2048).decode()
 
-          if not msg:
-            break
+   ```python
+   def listen_to_client(client):
+     try:
+       while True:
+         msg = client.recv(2048).decode()
 
-          for c in clients:
-            if c != client:
-              c.send(msg.encode())
-      except:
-        print('Client error!')
-      finally:
-        client.close()
+         if not msg:
+           break
 
-        clients.remove(client)
-        
-        print('Removed Client!')
+         for c in clients:
+           if c != client:
+             c.send(msg.encode())
+     except:
+       print('Client error!')
+     finally:
+       client.close()
 
-        if len(clients) == 0:
-            global running
-            running = False
-    ```
+       clients.remove(client)
+
+       print('Removed Client!')
+
+       if len(clients) == 0:
+           global running
+           running = False
+   ```
 
 4. Now we can start listening for new clients on a daemon thread (a thread that automatically dies when the program ends)
 
-    ```python
-    Thread(target=listen_for_clients, daemon=True).start()
-    ```
+   ```python
+   Thread(target=listen_for_clients, daemon=True).start()
+   ```
 
 5. Finally, we have to wait until the running variable is set to `False` so we can end the messenger server script.
 
-    ```python
-    try:
-      while running:
-        pass
+   ```python
+   try:
+     while running:
+       pass
 
-    except KeyboardInterrupt:
-      print('Server termination requested!')
-        
-    except:
-      print('Error, terminating server!')
+   except KeyboardInterrupt:
+     print('Server termination requested!')
 
-    finally:
-      for client in clients:
-        client.close()
-        
-      server.close()
+   except:
+     print('Error, terminating server!')
 
-    print('Server has terminated!')
-    ```
+   finally:
+     for client in clients:
+       client.close()
+
+     server.close()
+
+   print('Server has terminated!')
+   ```
 
 ### Client side
 
@@ -120,70 +122,70 @@ In our [client.py](/Part3/client.py) script:
 
 1. We must declare the `running` variable so that we can end the program from any thread. We will also take a username so that the client's messages can be labelled.
 
-    ```python
-    running = True
-    username = input('Username: ')
-    ```
+   ```python
+   running = True
+   username = input('Username: ')
+   ```
 
 2. First we edit the connection code and replace it with the following. This way we can handle a connection failure.
 
-    ```python
-    try:
-      client.connect(SERVER)
-    except:
-      print('Failed to connect to server!')
-      quit()
-    else:
-      print('Connected to server!')
-    ```
+   ```python
+   try:
+     client.connect(SERVER)
+   except:
+     print('Failed to connect to server!')
+     quit()
+   else:
+     print('Connected to server!')
+   ```
 
 3. Next, we define the following function to read messages sent by other clients being transferred by the server:
 
-    ```python
-    def listen_loop():
-      try:
-        while True:
-          msg = client.recv(2048).decode()
+   ```python
+   def listen_loop():
+     try:
+       while True:
+         msg = client.recv(2048).decode()
 
-          if not msg:
-            break
+         if not msg:
+           break
 
-          print(msg)
-      except:
-        print('Server error!')
-        
-      finally:
-        global running
-        running = False
+         print(msg)
+     except:
+       print('Server error!')
 
-        print('Connection terminated!')
-    ```
-  
+     finally:
+       global running
+       running = False
+
+       print('Connection terminated!')
+   ```
+
 4. We can run this method in the background by adding the following line (we set this thread as a daemon so that it will be killed when our main thread ends):
 
-    ```python
-    Thread(target=listen_loop, daemon=True).start()
-    ```
+   ```python
+   Thread(target=listen_loop, daemon=True).start()
+   ```
 
 5. Finally, we can allow the client to send messages to the server with the following block of code
 
-    ```python
-    try:
-      while running:
-        msg = input('')
+   ```python
+   try:
+     while running:
+       msg = input('')
 
-        if msg == 'exit':
-          running = False
-        else:
-          msg = '[' + username + '] ' + msg
-          client.send(msg.encode())
-    except:
-      print('Failed to send message')
-    finally:
-      client.close()
-      print('Disconnected from server!')
-    ```
+       if msg == 'exit':
+         running = False
+       else:
+         msg = '[' + username + '] ' + msg
+         client.send(msg.encode())
+   except:
+     print('Failed to send message')
+   finally:
+     client.close()
+     print('Disconnected from server!')
+   ```
 
 ## Further Reading
 
-For an in-depth explanation of `try-catch-finally` blocks and how they are structured: [W3Schools](https://www.w3schools.com/python/python_try_except.asp). For more information on [multithreading](https://realpython.com/intro-to-python-threading/) with python. 
+For an in-depth explanation of `try-catch-finally` blocks and how they are structured: [W3Schools](https://www.w3schools.com/python/python_try_except.asp). For more information on [multithreading](https://realpython.com/intro-to-python-threading/) with python.
